@@ -35,51 +35,55 @@ function App() {
   return (
     
       <div className='page'>
-        <div className='table'>
           <div className='tableTop'>
             <div className='select-container'>
               <Select options={order} placeholder="Order By"/>
             </div>
             <input type='text' onChange={()=>setText} value={text} placeholder="Search Database"/>
           </div>
-        <div className='tableCategory'> 
-          <div className='empName'>
-            <h3>Last Name:</h3>
-          </div>
-          <div className='empName'>
-            <h3>First Name:</h3>
-          </div>
-          <div className='empId'>
-            <h3>Id:</h3>
-          </div>
-          <div className='empAge'>
-            <h3>Age:</h3>
-          </div>
-          <div className='empDob'>
-            <h3>DOB:</h3>
-          </div>
-          <div className='empEmail'>
-            <h3>Email:</h3>
-          </div>
-          <div className='empNumber'>
-            <h3>Phone Number:</h3>
-          </div>
-          <div className='empSalary'>
-            <h3>Salary:</h3>
-          </div>
-          <div className='empAddress'>
-            <h3>Address</h3>
-          </div>
-            </div>
-          <div className='tableContent'>
-            {employees?.map((employee)=> {
-              return(
-                <EmployeeCard key={employee.id} employee={employee}/>
+          <div className='table'>
+            <div className='tableContainer'>
+              <div className='tableCategory'> 
+                <div className='empName'>
+                  <h3>Last Name:</h3>
+                </div>
+                <div className='empName'>
+                  <h3>First Name:</h3>
+                </div>
+                <div className='empId'>
+                  <h3>Id:</h3>
+                </div>
+                <div className='empAge'>
+                  <h3>Age:</h3>
+                </div>
+                <div className='empDob'>
+                  <h3>DOB:</h3>
+                </div>
+                <div className='empEmail'>
+                  <h3>Email:</h3>
+                </div>
+                <div className='empNumber'>
+                  <h3>Phone Number:</h3>
+                </div>
+                <div className='empSalary'>
+                  <h3>Salary:</h3>
+                </div>
+                <div className='empAddress'>
+                  <h3>Address</h3>
+                </div>
+              </div>
+              <div className='tablContentContainer'>
+                <div className='tableContent'>
+                  {employees?.map((employee)=> {
+                    return(
+                      <EmployeeCard key={employee.id} employee={employee}/>
                     )
-            })}
+                  })}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
   )
 }
 
