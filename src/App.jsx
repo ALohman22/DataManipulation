@@ -7,8 +7,9 @@ import './App.css'
 function App() {
 
   const [text, setText] = useState("")
+  const [selection, setSelection] = useState("")
   const [employees, setEmployees] = useState([])
-
+console.log(text)
   const mappedRes = (res) => {
     
   }
@@ -23,7 +24,21 @@ function App() {
       ).catch(err=> console.log(err))
   }, []);
 
-
+  // const filterEmployees = () => {
+  //   text === "" ?
+  //     employees?.map((employee)=> {
+  //     return(
+  //       <EmployeeCard key={employee.id} employee={employee} selection={selection}/>
+  //      )
+  //   }) :  console.log(text)
+    //   employees?.filter((employee)=> {
+    //   return employee.firstName = text
+    // }).map((employee)=> {
+    //   return(
+    //     <EmployeeCard key={employee.id} employee={employee} selection={selection}/>
+    //   )
+    // })
+  // }
   
   const order = [
     {value: 'id', label: 'ID'},
@@ -37,46 +52,69 @@ function App() {
       <div className='page'>
           <div className='tableTop'>
             <div className='select-container'>
-              <Select options={order} placeholder="Order By"/>
+              <Select options={order} onchange={()=>setSelection(value)} placeholder="Order By"/>
             </div>
-            <input type='text' onChange={()=>setText} value={text} placeholder="Search Database"/>
+            <input 
+              type='text' 
+              onChange={(e)=> setText(e.target.value)} 
+              value={text} 
+              placeholder="Search Database"/>
           </div>
           <div className='table'>
             <div className='tableContainer'>
               <div className='tableCategory'> 
-                <div className='empName'>
+                <div className='name' onClick={()=>setSelection("firstName")}>
                   <h3>Last Name:</h3>
                 </div>
-                <div className='empName'>
+                <div className='name' onClick={()=>setSelection("lastName")}>
                   <h3>First Name:</h3>
                 </div>
-                <div className='empId'>
+                <div className='id' onClick={()=>setSelection("id")}>
                   <h3>Id:</h3>
                 </div>
-                <div className='empAge'>
+                <div className='age' onClick={()=>setSelection("age")}>
                   <h3>Age:</h3>
                 </div>
-                <div className='empDob'>
+                <div className='dob' onClick={()=>setSelection("dob")}>
                   <h3>DOB:</h3>
                 </div>
-                <div className='empEmail'>
+                <div className='email' onClick={()=>setSelection("email")}>
                   <h3>Email:</h3>
                 </div>
-                <div className='empNumber'>
+                <div className='number' onClick={()=>setSelection("number")}>
                   <h3>Phone Number:</h3>
                 </div>
-                <div className='empSalary'>
+                <div className='salary' onClick={()=>setSelection("salary")}>
                   <h3>Salary:</h3>
                 </div>
-                <div className='empAddress'>
+                <div className='address' onClick={()=>setSelection("address")}>
                   <h3>Address</h3>
                 </div>
               </div>
               <div className='tablContentContainer'>
                 <div className='tableContent'>
-                  {employees?.map((employee)=> {
+                  
+                
+                {text === '' ? employees?.map((employee)=> {
+                return(
+                  <EmployeeCard key={employee.id} employee={employee} selection={selection}/>
+                )
+                }) :    
+                  employees?.filter((employee)=> {
+                    return (
+                    employee.firstName.toLowerCase().includes(text) || 
+                    employee.lastName.toLowerCase().includes(text) || 
+                    employee.email.toLowerCase().includes(text) || 
+                    employee.id == text ||
+                    employee.contactNumber == text ||
+                    employee.dob.includes(text) ||
+                    employee.age == text ||
+                    employee.salary == text ||
+                    employee.address.toLowerCase().includes(text)
+                    )
+                  }).map((employee)=> {
                     return(
-                      <EmployeeCard key={employee.id} employee={employee}/>
+                      <EmployeeCard key={employee.id} employee={employee} selection={selection}/>
                     )
                   })}
                 </div>

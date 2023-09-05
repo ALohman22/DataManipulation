@@ -1,7 +1,8 @@
 import React from 'react'
 
-const EmployeeCard = ({employee}) => {
- console.log(employee)
+const EmployeeCard = ({employee, selection}) => {
+//  console.log(employee)
+//  console.log(selection)
     return(
     <div className='employee-card'>
         <div className='empName'>
