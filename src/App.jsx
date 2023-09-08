@@ -9,36 +9,54 @@ function App() {
   const [text, setText] = useState("")
   const [selection, setSelection] = useState("")
   const [employees, setEmployees] = useState([])
-console.log(text)
-  const mappedRes = (res) => {
-    
-  }
 
   useEffect(() => {
     axios.get('https://hub.dummyapis.com/employee?noofRecords=100&idStarts=1001')
     .then(res=> 
-      // console.log(res.data)
-     
-      setEmployees(res.data)
+      setEmployees(res.data),
       
+      // setLoadedState(!loadedState)
       ).catch(err=> console.log(err))
   }, []);
 
-  // const filterEmployees = () => {
-  //   text === "" ?
-  //     employees?.map((employee)=> {
-  //     return(
-  //       <EmployeeCard key={employee.id} employee={employee} selection={selection}/>
-  //      )
-  //   }) :  console.log(text)
-    //   employees?.filter((employee)=> {
-    //   return employee.firstName = text
-    // }).map((employee)=> {
-    //   return(
-    //     <EmployeeCard key={employee.id} employee={employee} selection={selection}/>
-    //   )
-    // })
-  // }
+  
+
+  const mappedEmployees = (emp) => {
+    return emp.map((employee)=> {
+      return(
+        <EmployeeCard key={employee.id} employee={employee} selection={selection}/>
+      )
+    }).sort((a,b)=> {
+      console.log(selection)
+      if(selection === "id"){
+        return a.props.employee.id.toString().localeCompare(b.props.employee.id)
+      } else if(selection === "lastName") {
+        return a.props.employee.lastName.toString().localeCompare(b.props.employee.lastName)
+      } else if(selection === "dob") {
+        return a.props.employee.dob.toString().localeCompare(b.props.employee.dob)
+      } else {
+        return a.props.employee.salary.toString().localeCompare(b.props.employee.salary)
+      }
+    
+    })
+    
+  }
+
+  const filterEmployees = () => {
+    let empFilter = employees?.filter((employee)=> {
+      return (
+        employee.firstName.toLowerCase().includes(text) || 
+        employee.lastName.toLowerCase().includes(text) || 
+        employee.email.toLowerCase().includes(text) || 
+        employee.id == text ||
+        employee.contactNumber == text ||
+        employee.dob.includes(text) ||
+        employee.age == text ||
+        employee.salary == text ||
+        employee.address.toLowerCase().includes(text)
+      )})
+        return mappedEmployees(empFilter)
+    }
   
   const order = [
     {value: 'id', label: 'ID'},
@@ -93,30 +111,7 @@ console.log(text)
               </div>
               <div className='tablContentContainer'>
                 <div className='tableContent'>
-                  
-                
-                {text === '' ? employees?.map((employee)=> {
-                return(
-                  <EmployeeCard key={employee.id} employee={employee} selection={selection}/>
-                )
-                }) :    
-                  employees?.filter((employee)=> {
-                    return (
-                    employee.firstName.toLowerCase().includes(text) || 
-                    employee.lastName.toLowerCase().includes(text) || 
-                    employee.email.toLowerCase().includes(text) || 
-                    employee.id == text ||
-                    employee.contactNumber == text ||
-                    employee.dob.includes(text) ||
-                    employee.age == text ||
-                    employee.salary == text ||
-                    employee.address.toLowerCase().includes(text)
-                    )
-                  }).map((employee)=> {
-                    return(
-                      <EmployeeCard key={employee.id} employee={employee} selection={selection}/>
-                    )
-                  })}
+                {text === "" ? mappedEmployees(employees) : filterEmployees()}
                 </div>
               </div>
             </div>
